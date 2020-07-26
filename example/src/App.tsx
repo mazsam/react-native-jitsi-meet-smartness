@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import KoReactNativeJitsiMeet from 'ko-react-native-jitsi-meet';
+import JitsiMeet from 'ko-react-native-jitsi-meet';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    KoReactNativeJitsiMeet.multiply(3, 7).then(setResult);
+    JitsiMeet.multiply(3, 7).then(setResult);
   }, []);
 
   return (

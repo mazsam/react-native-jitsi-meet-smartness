@@ -5,10 +5,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
 
+const val moduleName = "NativeJitsiMeet"
 class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
-        return "KoReactNativeJitsiMeet"
+        return moduleName
     }
 
     // Example method

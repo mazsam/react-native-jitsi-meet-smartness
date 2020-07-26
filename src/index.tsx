@@ -4,6 +4,6 @@ type KoReactNativeJitsiMeetType = {
   multiply(a: number, b: number): Promise<number>;
 };
 
-const { KoReactNativeJitsiMeet } = NativeModules;
+const { NativeJitsiMeet } = NativeModules;
 
-export default KoReactNativeJitsiMeet as KoReactNativeJitsiMeetType;
+export default NativeJitsiMeet as KoReactNativeJitsiMeetType;
