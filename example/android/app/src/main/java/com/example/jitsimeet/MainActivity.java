@@ -1,4 +1,4 @@
-package com.example.koreactnativejitsimeet;
+package com.example.jitsimeet;
 
 import com.facebook.react.ReactActivity;
 

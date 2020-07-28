@@ -1,9 +1,10 @@
 import { NativeModules } from 'react-native';
 
-type KoReactNativeJitsiMeetType = {
+type NativeJitsiMeetType = {
   multiply(a: number, b: number): Promise<number>;
+  call(): Function
 };
 
-const { KoReactNativeJitsiMeet } = NativeModules;
+const { NativeJitsiMeet } = NativeModules;
 
-export default KoReactNativeJitsiMeet as KoReactNativeJitsiMeetType;
+export default NativeJitsiMeet as NativeJitsiMeetType;

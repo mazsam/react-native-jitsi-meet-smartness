@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import KoReactNativeJitsiMeet from 'ko-react-native-jitsi-meet';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import JitsiMeet from 'ko-react-native-jitsi-meet';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
 
-  React.useEffect(() => {
-    KoReactNativeJitsiMeet.multiply(3, 7).then(setResult);
-  }, []);
-
+  const call = React.useCallback(() => {
+    JitsiMeet.call()
+  }, [])
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <TouchableOpacity onPress={call}>
+        <Text>Start Jitsi</Text>
+      </TouchableOpacity>
     </View>
   );
 }

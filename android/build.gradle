@@ -29,13 +29,13 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 21
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
+
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -43,6 +43,7 @@ android {
   }
   lintOptions {
     disable 'GradleCompatible'
+    abortOnError false
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,7 +52,9 @@ android {
 }
 
 repositories {
-  mavenCentral()
+  maven {
+      url "https://github.com/amallo/jitsi-maven-repository/raw/master/releases"
+  }
   jcenter()
   google()
 
@@ -127,4 +130,8 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation ('org.jitsi.react:jitsi-meet-sdk:+') {
+    exclude group: 'com.facebook',module:'hermes'
+    transitive = true
+  }
 }

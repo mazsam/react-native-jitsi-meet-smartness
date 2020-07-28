@@ -1,4 +1,4 @@
-package com.jitsimeet
+package com.ko.jitsimeet
 
 import java.util.Arrays
 
