@@ -11,11 +11,20 @@ npm install ko-react-native-jitsi-meet
 ## Usage
 
 ```js
-import KoReactNativeJitsiMeet from "ko-react-native-jitsi-meet";
 
-// ...
+export default function App() {
 
-const result = await KoReactNativeJitsiMeet.multiply(3, 7);
+  const call = React.useCallback(() => {
+    JitsiMeet.call()
+  }, [])
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={call}>
+        <Text>Start Jitsi</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 ```
 
 ## Contributing
