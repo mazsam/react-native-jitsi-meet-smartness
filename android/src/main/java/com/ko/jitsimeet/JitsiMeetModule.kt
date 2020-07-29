@@ -14,9 +14,9 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   }
 
   @ReactMethod
-  fun call(){
+  fun call(url: String){
      UiThreadUtil.runOnUiThread {
-       this.currentActivity?.let { RnJitsiMeetActivity.launch(it) }
+       this.currentActivity?.let { RnJitsiMeetActivity.launch(it, url) }
      }
 
   }

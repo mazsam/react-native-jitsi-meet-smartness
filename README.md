@@ -15,7 +15,7 @@ npm install ko-react-native-jitsi-meet
 export default function App() {
 
   const call = React.useCallback(() => {
-    JitsiMeet.call()
+    JitsiMeet.call('https://meet.jit.si/exemple')
   }, [])
   return (
     <View style={styles.container}>

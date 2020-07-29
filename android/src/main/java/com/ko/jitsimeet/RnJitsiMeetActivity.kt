@@ -9,11 +9,15 @@ import com.facebook.react.modules.core.PermissionListener
 import org.jitsi.meet.sdk.*
 
 const val TAG = "RnJitsiMeetActivity"
+const val EXTRA_JITSI_URL = "com.ko.jitsimeet.URL"
+
 class RnJitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   companion object {
-    fun launch(context: Context) {
-      val intent = Intent(context, RnJitsiMeetActivity::class.java)
+    fun launch(context: Context, url: String) {
+      val intent = Intent(context, RnJitsiMeetActivity::class.java).apply {
+        putExtra(EXTRA_JITSI_URL, url)
+      }
       context.startActivity(intent)
     }
   }
@@ -37,9 +41,13 @@ class RnJitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, Jits
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    view = JitsiMeetView(this)
+
+    /** Retrieve all params from caller module **/
+    val url = intent.getStringExtra(EXTRA_JITSI_URL)
+
+    /** Build the options to feed Jitsi **/
     val builder = JitsiMeetConferenceOptions.Builder()
-      .setRoom("https://meet.jit.si/test123")
+      .setRoom(url)
     builder.setAudioMuted(false)
     builder.setVideoMuted(true)
     val jitsiMeetUserInfo = JitsiMeetUserInfo()
@@ -47,6 +55,8 @@ class RnJitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, Jits
     builder.setUserInfo(jitsiMeetUserInfo)
     val options = builder.build()
 
+    /** Prepare the jitsi view with options **/
+    view = JitsiMeetView(this)
     view!!.listener = this
     view!!.join(options)
     setContentView(view)

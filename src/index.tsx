@@ -1,8 +1,7 @@
 import { NativeModules } from 'react-native';
 
 type NativeJitsiMeetType = {
-  multiply(a: number, b: number): Promise<number>;
-  call(): Function
+  call(url: string): Function
 };
 
 const { NativeJitsiMeet } = NativeModules;
