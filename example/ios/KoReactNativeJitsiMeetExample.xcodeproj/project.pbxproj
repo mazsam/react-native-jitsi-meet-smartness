@@ -30,6 +30,8 @@
 		4D7192F03A36A017E887435B /* Pods-KoReactNativeJitsiMeetExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KoReactNativeJitsiMeetExample.release.xcconfig"; path = "Target Support Files/Pods-KoReactNativeJitsiMeetExample/Pods-KoReactNativeJitsiMeetExample.release.xcconfig"; sourceTree = "<group>"; };
 		871719007ECC5EAD276C345C /* Pods-KoReactNativeJitsiMeetExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KoReactNativeJitsiMeetExample.debug.xcconfig"; path = "Target Support Files/Pods-KoReactNativeJitsiMeetExample/Pods-KoReactNativeJitsiMeetExample.debug.xcconfig"; sourceTree = "<group>"; };
 		BCEA90A70F4BEAD7E9FA28B2 /* libPods-KoReactNativeJitsiMeetExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KoReactNativeJitsiMeetExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA7C8A7024EACA4C004BED51 /* JitsiMeet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JitsiMeet.framework; path = Pods/JitsiMeetSDK/Frameworks/JitsiMeet.framework; sourceTree = "<group>"; };
+		CA7C8A7124EACA4C004BED51 /* WebRTC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebRTC.framework; path = Pods/JitsiMeetSDK/Frameworks/WebRTC.framework; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				CA7C8A7024EACA4C004BED51 /* JitsiMeet.framework */,
+				CA7C8A7124EACA4C004BED51 /* WebRTC.framework */,
 				BCEA90A70F4BEAD7E9FA28B2 /* libPods-KoReactNativeJitsiMeetExample.a */,
 			);
 			name = Frameworks;
@@ -290,6 +294,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/JitsiMeetSDK/Frameworks",
+				);
 				INFOPLIST_FILE = KoReactNativeJitsiMeetExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -317,6 +325,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/JitsiMeetSDK/Frameworks",
+				);
 				INFOPLIST_FILE = KoReactNativeJitsiMeetExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (

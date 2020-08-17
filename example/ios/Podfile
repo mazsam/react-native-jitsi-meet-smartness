@@ -1,6 +1,8 @@
 platform :ios, '11.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+workspace 'KoReactNativeJitsiMeetExample.xcworkspace'
+
 def add_flipper_pods!
   version = '~> 0.33.1'
   pod 'FlipperKit', version, :configuration => 'Debug'
@@ -21,6 +23,7 @@ def flipper_post_install(installer)
 end
 
 target 'KoReactNativeJitsiMeetExample' do
+  project 'KoReactNativeJitsiMeetExample.xcodeproj'
   # Pods for KoReactNativeJitsiMeetExample
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -54,6 +57,7 @@ target 'KoReactNativeJitsiMeetExample' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'JitsiMeetSDK', :git => 'https://github.com/amallo/jitsi-meet-ios-sdk-releases.git'
+  #pod 'JitsiMeetSDK', '~> 2.8.1'
   pod 'ko-react-native-jitsi-meet', :path => '../..'
 
   use_native_modules!
@@ -65,5 +69,12 @@ target 'KoReactNativeJitsiMeetExample' do
   add_flipper_pods!
   post_install do |installer|
     flipper_post_install(installer)
+    
+    # Disable bitcode
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+      end
+    end
   end
 end
