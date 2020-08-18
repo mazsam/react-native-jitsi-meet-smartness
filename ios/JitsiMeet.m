@@ -1,6 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-@interface RCT_EXTERN_MODULE(NativeJitsiMeet, NSObject)
+@interface RCT_EXTERN_MODULE(JitsiMeet, NSObject)
 
 
 RCT_EXTERN_METHOD(call:(NSString*)url)

@@ -1,5 +1,5 @@
-@objc(NativeJitsiMeet)
-class NativeJitsiMeet: NSObject {
+@objc(JitsiMeet)
+class JitsiMeet: NSObject {
 
 
     @objc(call:)

@@ -2,7 +2,7 @@ package com.ko.jitsimeet
 
 import com.facebook.react.bridge.*
 
-const val MODULE_NAME = "NativeJitsiMeet"
+const val MODULE_NAME = "JitsiMeet"
 class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
     return MODULE_NAME

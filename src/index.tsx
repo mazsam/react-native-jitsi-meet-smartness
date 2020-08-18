@@ -4,6 +4,6 @@ type NativeJitsiMeetType = {
   call(url: string): Function
 };
 
-const { NativeJitsiMeet } = NativeModules;
+const { JitsiMeet } = NativeModules;
 
-export default NativeJitsiMeet as NativeJitsiMeetType;
+export default JitsiMeet as NativeJitsiMeetType;
