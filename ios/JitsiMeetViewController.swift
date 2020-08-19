@@ -8,12 +8,6 @@
 import UIKit
 import JitsiMeet
 
-struct UserInfo {
-    var email: String?
-    var displayName: String?
-    var avatar: String?
-}
-
 class JitsiMeetViewController: UIViewController {
     
     /**
@@ -30,12 +24,11 @@ class JitsiMeetViewController: UIViewController {
     }
     
     /**
-        Display the jitsi meet view on top of main application
+        Display the jitsi meet view
         - parameters :
             - url : The url of the conference
-            - userInfo: User's information
      */
-    func call(url: String, userInfo:  UserInfo){
+    func call(url: String){
         // create and configure jitsimeet view
         let jitsiMeetView  =  JitsiMeetView()
         jitsiMeetView.delegate = self
@@ -43,15 +36,6 @@ class JitsiMeetViewController: UIViewController {
             builder.welcomePageEnabled = false
             builder.audioOnly = false
             builder.room = url
-            
-            let jitsiUserInfo = JitsiMeetUserInfo()
-            jitsiUserInfo.displayName = userInfo.displayName
-            jitsiUserInfo.email = userInfo.email
-            if userInfo.avatar != nil {
-                jitsiUserInfo.avatar = URL.init(string: userInfo.avatar!)
-            }
-            builder.userInfo = jitsiUserInfo
-            
         }
         jitsiMeetView.join(options)
         self.view = jitsiMeetView

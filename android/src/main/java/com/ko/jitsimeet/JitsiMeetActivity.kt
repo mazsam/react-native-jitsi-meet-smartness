@@ -10,13 +10,15 @@ import org.jitsi.meet.sdk.*
 
 const val TAG = "RnJitsiMeetActivity"
 const val EXTRA_JITSI_URL = "com.ko.jitsimeet.URL"
+const val EXTRA_JITSI_USER_INFO = "com.ko.jitsimeet.USER_INFO"
 
-class RnJitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
+class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   companion object {
-    fun launch(context: Context, url: String) {
-      val intent = Intent(context, RnJitsiMeetActivity::class.java).apply {
+    fun launch(context: Context, url: String, userInfo: Bundle) {
+      val intent = Intent(context, JitsiMeetActivity::class.java).apply {
         putExtra(EXTRA_JITSI_URL, url)
+        putExtra(EXTRA_JITSI_USER_INFO, userInfo)
       }
       context.startActivity(intent)
     }
@@ -44,15 +46,14 @@ class RnJitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, Jits
 
     /** Retrieve all params from caller module **/
     val url = intent.getStringExtra(EXTRA_JITSI_URL)
+    var userInfo = JitsiMeetUserInfo(intent.getBundleExtra(EXTRA_JITSI_USER_INFO))
 
     /** Build the options to feed Jitsi **/
     val builder = JitsiMeetConferenceOptions.Builder()
       .setRoom(url)
     builder.setAudioMuted(false)
     builder.setVideoMuted(true)
-    val jitsiMeetUserInfo = JitsiMeetUserInfo()
-    jitsiMeetUserInfo.displayName = "Welcome"
-    builder.setUserInfo(jitsiMeetUserInfo)
+    builder.setUserInfo(userInfo)
     val options = builder.build()
 
     /** Prepare the jitsi view with options **/

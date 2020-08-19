@@ -1,9 +1,13 @@
 import { NativeModules } from 'react-native';
+interface UserInfo {
+  email: string;
+  displayName: string;
+}
 
-type NativeJitsiMeetType = {
-  call(url: string): Function
+type JitsiMeetType = {
+  call(url: string, userInfo: UserInfo): Function
 };
 
 const { JitsiMeet } = NativeModules;
 
-export default JitsiMeet as NativeJitsiMeetType;
+export default JitsiMeet as JitsiMeetType;

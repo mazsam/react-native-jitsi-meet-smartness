@@ -14,7 +14,7 @@
       android:theme="@style/AppTheme">
       <activity
         android:launchMode="singleTask"
-        android:name="com.ko.jitsimeet.RnJitsiMeetActivity"
+        android:name="com.ko.jitsimeet.JitsiMeetActivity"
         >
       </activity>
       <activity
