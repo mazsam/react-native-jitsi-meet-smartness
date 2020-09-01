@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 interface UserInfo {
   email: string;
   displayName: string;
@@ -9,5 +9,7 @@ type JitsiMeetType = {
 };
 
 const { JitsiMeet } = NativeModules;
+
+export const eventEmitter = new NativeEventEmitter(JitsiMeet);
 
 export default JitsiMeet as JitsiMeetType;

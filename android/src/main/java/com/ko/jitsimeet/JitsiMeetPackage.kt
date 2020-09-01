@@ -9,6 +9,7 @@ import com.facebook.react.uimanager.ViewManager
 
 class JitsiMeetPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
+
         return Arrays.asList<NativeModule>(JitsiMeetModule(reactContext))
     }
 
