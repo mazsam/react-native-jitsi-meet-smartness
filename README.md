@@ -40,6 +40,40 @@ const styles = StyleSheet.create({
 });
 
 ```
+Jitsi can be embedded in your applications in two ways:
+- By calling Jitsi API methods 
+- By using the `<RNJitsiMeetView>` view 
+
+## Using Jitsi API
+
+The start of a Jitsi call is done using the `call()` method. This method takes as first parameter the information of the calling user.
+
+```ts
+import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
+
+interface UserInfo {
+  email: string;
+  displayName: string;
+}
+JitsiMeet.call('https://meet.jit.si/exemple', { email : 'john@ko.com', displayName: 'John Doe' })
+```
+
+It is possible to listen to the events of the Jitsi call (`onConferenceJoined`, `onConferenceTerminated`) by subscribing to the corresponding events.
+
+```js
+import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
+
+React.useEffect(() => {
+    const eventListener = eventEmitter.addListener('onConferenceTerminated', () => {
+      console.log('Conference is over, see you soon !')
+    })
+    return () => eventListener.remove();
+  }, [])
+```
+
+## Using the `<RNJitsiMeetView>`
+
+Todo
 
 ## Contributing
 
