@@ -8,6 +8,22 @@ Jitsi for KO
 npm install ko-react-native-jitsi-meet
 ```
 
+## Android Configuration
+
+Add the `com.ko.jitsimeet.JitsiMeetActivity` in `android/app/src/main/AndroidManifest.xml` with `singleTask` launch mode.
+
+```xml
+<application
+      ....
+>
+<activity
+        android:launchMode="singleTask"
+        android:name="com.ko.jitsimeet.JitsiMeetActivity"
+/>
+</application>
+
+```
+
 ## Usage
 
 ```js
@@ -71,9 +87,6 @@ React.useEffect(() => {
   }, [])
 ```
 
-## Using the `<RNJitsiMeetView>`
-
-Todo
 
 ## Contributing
 
