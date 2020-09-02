@@ -309,7 +309,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.KoReactNativeJitsiMeetExample.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.jitsimeet.KoReactNativeJitsiMeetExample;
 				PRODUCT_NAME = KoReactNativeJitsiMeetExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "KoReactNativeJitsiMeetExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -340,7 +340,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.KoReactNativeJitsiMeetExample.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.jitsimeet.KoReactNativeJitsiMeetExample;
 				PRODUCT_NAME = KoReactNativeJitsiMeetExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "KoReactNativeJitsiMeetExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -16,6 +16,8 @@ struct UserInfo {
 
 class JitsiMeetViewController: UIViewController {
     
+    var delegate: JitsiMeetViewDelegate?
+    
     /**
        The main contructor display a default modal full screen controller
         - parameters:
@@ -53,6 +55,7 @@ class JitsiMeetViewController: UIViewController {
             builder.userInfo = jitsiUserInfo
             
         }
+        jitsiMeetView.delegate = self
         jitsiMeetView.join(options)
         self.view = jitsiMeetView
 
@@ -71,6 +74,10 @@ class JitsiMeetViewController: UIViewController {
 
 extension JitsiMeetViewController: JitsiMeetViewDelegate {
     public func conferenceTerminated(_ data: [AnyHashable : Any]!) {
-        cleanUp()
+        self.cleanUp()
+        self.delegate?.conferenceTerminated!(data)
+    }
+    public func conferenceJoined(_ data: [AnyHashable : Any]!) {
+        self.delegate?.conferenceJoined!(data)
     }
 }
