@@ -1,6 +1,8 @@
 #import <React/RCTBridgeModule.h>
 
-@interface RCT_EXTERN_MODULE(JitsiMeet, NSObject)
+#import <React/RCTEventEmitter.h>
+
+@interface RCT_EXTERN_MODULE(JitsiMeet, RCTEventEmitter)
 
 
 RCT_EXTERN_METHOD(call:(NSString*)url userInfo:(NSDictionary *)userInfo)
