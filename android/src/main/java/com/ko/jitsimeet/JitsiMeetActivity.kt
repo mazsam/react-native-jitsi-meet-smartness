@@ -79,7 +79,6 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
   }
   override fun onDestroy() {
     super.onDestroy()
-    Log.d(TAG, "onDestroy")
     view!!.listener = null
     view!!.dispose()
     view = null
@@ -88,7 +87,6 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
 
   public override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
-    Log.d(TAG, "onNewIntent")
     JitsiMeetActivityDelegate.onNewIntent(intent)
   }
 
@@ -106,7 +104,6 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
 
   override fun onResume() {
     super.onResume()
-    Log.d(TAG, "onResume")
     JitsiMeetActivityDelegate.onHostResume(this)
   }
 
@@ -116,7 +113,6 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
   }
 
   override fun onConferenceTerminated(param: Map<String, Any>?) {
-    Log.d(TAG,"onConferenceTerminated")
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
     receiver.send(RESULT_CONFERENCE_TERMINATED, args)
