@@ -1,6 +1,6 @@
 # ko-react-native-jitsi-meet
 
-Jitsi for KO
+Jitsi wrapper for ReactNative 
 
 ## Installation
 
