@@ -52,9 +52,7 @@ android {
 }
 
 repositories {
-  maven {
-      url "https://github.com/amallo/jitsi-maven-repository/raw/master/releases"
-  }
+
   jcenter()
   google()
 
