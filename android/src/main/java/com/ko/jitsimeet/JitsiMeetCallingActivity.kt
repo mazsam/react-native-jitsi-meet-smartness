@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import com.facebook.react.modules.core.PermissionListener
 import org.jitsi.meet.sdk.*
 
-const val TAG = "RnJitsiMeetActivity"
+const val TAG = "JitsiMeetCallingActivity"
 const val EXTRA_JITSI_URL = "com.ko.jitsimeet.URL"
 const val EXTRA_JITSI_USER_INFO = "com.ko.jitsimeet.USER_INFO"
 const val EXTRA_RESULT_RECEIVER = "receiver"
@@ -23,7 +23,7 @@ const val EVENT_ON_CONFERENCE_TERMINATED = "onConferenceTerminated"
 const val EVENT_ON_CONFERENCE_JOINED = "onConferenceJoined"
 
 
-class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
+class JitsiMeetCallingActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   companion object {
     fun launch(context: Activity, receiver: ResultReceiver, url: String, userInfo: Bundle) {
