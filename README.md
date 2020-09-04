@@ -1,6 +1,6 @@
 # ko-react-native-jitsi-meet
 
-Jitsi wrapper for ReactNative. NOT PRODUCTION READY !!!!
+Jitsi wrapper for ReactNative. WIP - NOT PRODUCTION READY !!!!
 
 ## Installation
 
