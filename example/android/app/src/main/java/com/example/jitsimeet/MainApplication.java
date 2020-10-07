@@ -5,7 +5,6 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-import com.example.jitsimeet.BuildConfig;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
