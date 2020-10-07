@@ -87,7 +87,7 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
       if (userInfoParams.hasKey("avatarURL")){
         userInfoBundle.putString("avatarURL", userInfoParams.getString("avatarURL"))
       }
-      this.currentActivity?.let { JitsiMeetCallingActivity.launch(it, resultReceiver,  url, userInfoBundle) }
+      this.currentActivity?.let { JitsiMeetActivity.launch(it, resultReceiver,  url, userInfoBundle) }
     }
 
   }

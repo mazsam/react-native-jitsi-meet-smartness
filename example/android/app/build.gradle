@@ -76,6 +76,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
+    entryFile: 'index.js',
     enableHermes: true,  // clean and rebuild if changing,
     bundleAssetName: "ko.android.bundle",
     bundleInDebug: true
@@ -129,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.koreactnativejitsimeet"
+        applicationId "com.example.jitsimeet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

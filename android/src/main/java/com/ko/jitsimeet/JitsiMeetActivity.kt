@@ -23,7 +23,7 @@ const val EVENT_ON_CONFERENCE_TERMINATED = "onConferenceTerminated"
 const val EVENT_ON_CONFERENCE_JOINED = "onConferenceJoined"
 
 
-class JitsiMeetCallingActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
+class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   companion object {
     fun launch(context: Activity, receiver: ResultReceiver, url: String, userInfo: Bundle) {
