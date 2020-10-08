@@ -3,9 +3,11 @@ interface UserInfo {
   email: string;
   displayName: string;
 }
-
+interface FeatureFlags {
+  [key: string]: boolean;
+}
 type JitsiMeetType = {
-  call(url: string, userInfo: UserInfo): Function
+  call(url: string, userInfo: UserInfo, featureFlags: FeatureFlags): void;
 };
 
 const { JitsiMeet } = NativeModules;
