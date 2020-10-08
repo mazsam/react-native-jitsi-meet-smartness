@@ -3,20 +3,31 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
+  Button,
   TextInput,
   ScrollView,
 } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
 
+const backgroundColor = 'cadetblue';
+const buttonColor = '#f194ff';
 export default function App() {
-  const [url, setUrl] = React.useState('https://meet.jit.si/exemple');
+  // Conference values
+  const [url, setUrl] = React.useState('https://meet.jit.si/ko-saloon');
   const [email, setEmail] = React.useState('john@ko.com');
   const [events, setEvents] = React.useState<string[]>([]);
   const [displayName, setDisplayName] = React.useState('John Doe');
+
+  // Features values
+  const [featurePipEnabled, setFeaturePipEnabled] = React.useState(false);
+
   const call = React.useCallback(() => {
-    JitsiMeet.call(url, { email, displayName });
-  }, [url, email, displayName]);
+    const featureFlags = {
+      'pip.enabled': featurePipEnabled,
+    };
+    JitsiMeet.call(url, { email, displayName }, featureFlags);
+  }, [url, email, displayName, featurePipEnabled]);
 
   React.useEffect(() => {
     const eventListener = eventEmitter.addListener(
@@ -55,12 +66,16 @@ export default function App() {
         defaultValue={displayName}
         onChangeText={setDisplayName}
       />
-      <TouchableOpacity
-        onPress={call}
-        style={{ padding: 20, backgroundColor: 'red' }}
-      >
-        <Text>Start Jitsi</Text>
-      </TouchableOpacity>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          disabled={false}
+          value={featurePipEnabled}
+          onValueChange={setFeaturePipEnabled}
+        />
+        <Text style={{ color: 'ghostwhite' }}>PIP_ENABLED</Text>
+      </View>
+
+      <Button title="Join conference" color={buttonColor} onPress={call} />
       <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}>
         {events.map((event, index) => (
           <Text key={`text-${index}`}>{event}</Text>
@@ -71,12 +86,20 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  button: {},
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    backgroundColor: backgroundColor,
   },
   input: {
-    marginVertical: 4,
+    marginVertical: 2,
+    backgroundColor: 'white',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
   },
 });

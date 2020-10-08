@@ -4,14 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.ResultReceiver
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.modules.core.PermissionListener
+import com.ko.jitsimeet.adapters.toJitsiMeetUserInfo
+import com.ko.jitsimeet.models.ConferenceModel
 import org.jitsi.meet.sdk.*
 
-const val TAG = "JitsiMeetCallingActivity"
-const val EXTRA_JITSI_URL = "com.ko.jitsimeet.URL"
-const val EXTRA_JITSI_USER_INFO = "com.ko.jitsimeet.USER_INFO"
+
+const val TAG = "JitsiMeetActivity"
+const val EXTRA_JITSI_CONFERENCE_MODEL = "com.ko.jitsimeet.CONFERENCE_MODEL"
 const val EXTRA_RESULT_RECEIVER = "receiver"
 
 
@@ -26,11 +27,11 @@ const val EVENT_ON_CONFERENCE_JOINED = "onConferenceJoined"
 class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   companion object {
-    fun launch(context: Activity, receiver: ResultReceiver, url: String, userInfo: Bundle) {
+    fun launch(context: Activity, receiver: ResultReceiver, conference: Bundle) {
+
       val intent = Intent(context, JitsiMeetActivity::class.java).apply {
         putExtra(EXTRA_RESULT_RECEIVER, receiver);
-        putExtra(EXTRA_JITSI_URL, url)
-        putExtra(EXTRA_JITSI_USER_INFO, userInfo)
+        putExtra(EXTRA_JITSI_CONFERENCE_MODEL, conference)
       }
       context.startActivity(intent)
     }
@@ -59,17 +60,22 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    /** Retrieve all params from caller module **/
-    val url = intent.getStringExtra(EXTRA_JITSI_URL)
-    var userInfo = JitsiMeetUserInfo(intent.getBundleExtra(EXTRA_JITSI_USER_INFO))
+    /** Retrieve all the Jitsi params **/
+    val conferenceBundle = intent.getBundleExtra(EXTRA_JITSI_CONFERENCE_MODEL)
+    val conferenceModel : ConferenceModel = conferenceBundle.getSerializable(EXTRA_JITSI_CONFERENCE_MODEL) as ConferenceModel
 
     /** Build the options to feed Jitsi **/
-    val builder = JitsiMeetConferenceOptions.Builder()
-      .setRoom(url)
-    builder.setAudioMuted(false)
-    builder.setVideoMuted(true)
-    builder.setUserInfo(userInfo)
-    val options = builder.build()
+    val optionsBuilder = JitsiMeetConferenceOptions.Builder()
+      .setRoom(conferenceModel.url)
+    optionsBuilder.setAudioMuted(false)
+    optionsBuilder.setVideoMuted(true)
+    optionsBuilder.setUserInfo( toJitsiMeetUserInfo(conferenceModel.userInfo))
+    val featureIterator = conferenceModel.featureFlags.keys.iterator()
+    while (featureIterator.hasNext()) {
+      val featureFlag: String = featureIterator.next()
+      optionsBuilder.setFeatureFlag(featureFlag, conferenceModel.featureFlags.get(featureFlag)!!)
+    }
+    val options = optionsBuilder.build()
 
     /** Prepare the jitsi view with options **/
     view = JitsiMeetView(this)
@@ -120,14 +126,12 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
   }
 
   override fun onConferenceJoined(param: Map<String, Any>?) {
-    Log.d(TAG, "onConferenceJoined")
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
     receiver.send(RESULT_CONFERENCE_JOINED, args)
   }
 
   override fun onConferenceWillJoin(param: Map<String, Any>?) {
-    Log.d(TAG, "onConferenceWillJoin")
   }
 
 
