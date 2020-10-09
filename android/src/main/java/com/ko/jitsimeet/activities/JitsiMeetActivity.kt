@@ -1,6 +1,5 @@
-package com.ko.jitsimeet
+package com.ko.jitsimeet.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.ResultReceiver
@@ -8,12 +7,12 @@ import androidx.fragment.app.FragmentActivity
 import com.facebook.react.modules.core.PermissionListener
 import com.ko.jitsimeet.adapters.toJitsiMeetUserInfo
 import com.ko.jitsimeet.models.ConferenceModel
+import com.ko.jitsimeet.navigator.EXTRA_RESULT_BUNDLE_DATA
 import org.jitsi.meet.sdk.*
 
 
-const val TAG = "JitsiMeetActivity"
 const val EXTRA_JITSI_CONFERENCE_MODEL = "com.ko.jitsimeet.CONFERENCE_MODEL"
-const val EXTRA_RESULT_RECEIVER = "receiver"
+const val EXTRA_RESULT_RECEIVER = "com.ko.jitsimeet.RECEIVER"
 
 
 const val RESULT_CONFERENCE_TERMINATED = 1002
@@ -26,21 +25,7 @@ const val EVENT_ON_CONFERENCE_JOINED = "onConferenceJoined"
 
 class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
-  companion object {
-    fun launch(context: Activity, receiver: ResultReceiver, conference: Bundle) {
-
-      val intent = Intent(context, JitsiMeetActivity::class.java).apply {
-        putExtra(EXTRA_RESULT_RECEIVER, receiver);
-        putExtra(EXTRA_JITSI_CONFERENCE_MODEL, conference)
-      }
-      context.startActivity(intent)
-    }
-  }
-
   private var view: JitsiMeetView? = null
-
-
-
 
   override fun onActivityResult(
     requestCode: Int,
@@ -61,7 +46,7 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
     super.onCreate(savedInstanceState)
 
     /** Retrieve all the Jitsi params **/
-    val conferenceBundle = intent.getBundleExtra(EXTRA_JITSI_CONFERENCE_MODEL)
+    val conferenceBundle = intent.getBundleExtra(EXTRA_RESULT_BUNDLE_DATA)
     val conferenceModel : ConferenceModel = conferenceBundle.getSerializable(EXTRA_JITSI_CONFERENCE_MODEL) as ConferenceModel
 
     /** Build the options to feed Jitsi **/

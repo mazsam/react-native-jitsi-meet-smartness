@@ -1,11 +1,11 @@
 package com.ko.jitsimeet.services
 
-import com.ko.jitsimeet.models.ConferenceModel
+import android.os.Bundle
 
 interface VideoConferenceServiceListener {
   fun onTerminated()
   fun onJoined()
 }
 interface VideoConferenceService {
-  fun join(conferenceModel: ConferenceModel, listener : VideoConferenceServiceListener)
+  fun join(conferenceBundle: Bundle, listener : VideoConferenceServiceListener)
 }
