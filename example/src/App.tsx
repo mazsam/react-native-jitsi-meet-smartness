@@ -12,7 +12,53 @@ import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
 
 const backgroundColor = 'cadetblue';
 const buttonColor = '#f194ff';
-export default function App() {
+
+interface FeatureTagCheckBoxProps {
+  disabled?: boolean;
+  value: boolean;
+  onValueChange: (value: boolean) => void;
+  text: string;
+}
+
+const FeatureTagCheckBox = ({
+  disabled = false,
+  value,
+  onValueChange,
+  text,
+}: FeatureTagCheckBoxProps) => {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <CheckBox
+        disabled={disabled}
+        value={value}
+        onValueChange={onValueChange}
+      />
+      <Text style={{ color: 'ghostwhite' }}>{text}</Text>
+    </View>
+  );
+};
+type FeatureFlag = {
+  [key: string]: boolean;
+};
+interface Props {
+  flags: FeatureFlag;
+}
+const initialFlags = {
+  'add-people.enabled': true,
+  'chat.enabled': true,
+  'close-captions.enabled': true,
+  'controls-in-menu.enabled': false,
+  'help.enabled': true,
+  'invite.enabled': true,
+  'kick-out.enabled': true,
+  'meeting-name.enabled': true,
+  'meeting-password.enabled': true,
+  'pip.enabled': false,
+  'remote-video-menu.enabled': true,
+  'tile-view.enabled': false,
+  'tile-default-view.enabled': false,
+};
+export default function App({ flags = initialFlags }: Props) {
   // Conference values
   const [url, setUrl] = React.useState('https://meet.jit.si/ko-saloon');
   const [email, setEmail] = React.useState('john@ko.com');
@@ -20,14 +66,11 @@ export default function App() {
   const [displayName, setDisplayName] = React.useState('John Doe');
 
   // Features values
-  const [featurePipEnabled, setFeaturePipEnabled] = React.useState(false);
+  const [featureFlags, setFeatureFlags] = React.useState<FeatureFlag>(flags);
 
   const call = React.useCallback(() => {
-    const featureFlags = {
-      'pip.enabled': featurePipEnabled,
-    };
     JitsiMeet.call(url, { email, displayName }, featureFlags);
-  }, [url, email, displayName, featurePipEnabled]);
+  }, [url, email, displayName, featureFlags]);
 
   React.useEffect(() => {
     const eventListener = eventEmitter.addListener(
@@ -67,12 +110,21 @@ export default function App() {
         onChangeText={setDisplayName}
       />
       <View style={styles.checkboxContainer}>
-        <CheckBox
-          disabled={false}
-          value={featurePipEnabled}
-          onValueChange={setFeaturePipEnabled}
-        />
-        <Text style={{ color: 'ghostwhite' }}>PIP_ENABLED</Text>
+        {Object.keys(featureFlags).map((key: string) => {
+          return (
+            <FeatureTagCheckBox
+              key={key}
+              value={featureFlags[key]}
+              onValueChange={(value) =>
+                setFeatureFlags((prevState) => ({
+                  ...prevState,
+                  [key]: value,
+                }))
+              }
+              text={key}
+            />
+          );
+        })}
       </View>
 
       <Button title="Join conference" color={buttonColor} onPress={call} />
@@ -98,8 +150,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginVertical: 20,
   },
 });
