@@ -8,7 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
+import JitsiMeet, {
+  eventEmitter,
+  FeatureFlag,
+  FeatureFlags,
+} from 'ko-react-native-jitsi-meet';
 
 const backgroundColor = 'cadetblue';
 const buttonColor = '#f194ff';
@@ -37,27 +41,24 @@ const FeatureTagCheckBox = ({
     </View>
   );
 };
-type FeatureFlag = {
-  [key: string]: boolean;
-};
 interface Props {
-  flags: FeatureFlag;
+  flags: FeatureFlags;
 }
 const initialFlags = {
-  'add-people.enabled': true,
-  'chat.enabled': true,
-  'close-captions.enabled': true,
-  'controls-in-menu.enabled': false,
-  'hang-up-with-back-button.enabled': false,
-  'help.enabled': true,
-  'invite.enabled': true,
-  'kick-out.enabled': true,
-  'meeting-name.enabled': true,
-  'meeting-password.enabled': true,
-  'pip.enabled': false,
-  'remote-video-menu.enabled': true,
-  'tile-view.enabled': false,
-  'tile-default-view.enabled': false,
+  [FeatureFlag.ADD_PEOPLE_ENABLED]: true,
+  [FeatureFlag.CHAT_ENABLED]: true,
+  [FeatureFlag.CLOSE_CAPTIONS_ENABLED]: true,
+  [FeatureFlag.CONTROLS_IN_MENU_ENABLED]: false,
+  [FeatureFlag.HANG_UP_WITH_BACK_BUTTON_ENABLED]: false,
+  [FeatureFlag.HELP_ENABLED]: true,
+  [FeatureFlag.INVITE_ENABLED]: true,
+  [FeatureFlag.KICK_OUT_ENABLED]: true,
+  [FeatureFlag.MEETING_NAME_ENABLED]: true,
+  [FeatureFlag.MEETING_PASSWORD_ENABLED]: true,
+  [FeatureFlag.PIP_ENABLED]: false,
+  [FeatureFlag.REMOTE_VIDEO_MENU_ENABLED]: true,
+  [FeatureFlag.TILE_VIEW_ENABLED]: false,
+  [FeatureFlag.TILE_DEFAULT_VIEW_ENABLED]: false,
 };
 export default function App({ flags = initialFlags }: Props) {
   // Conference values
@@ -67,7 +68,7 @@ export default function App({ flags = initialFlags }: Props) {
   const [displayName, setDisplayName] = React.useState('John Doe');
 
   // Features values
-  const [featureFlags, setFeatureFlags] = React.useState<FeatureFlag>(flags);
+  const [featureFlags, setFeatureFlags] = React.useState<FeatureFlags>(flags);
 
   const call = React.useCallback(() => {
     JitsiMeet.call(url, { email, displayName }, featureFlags);
