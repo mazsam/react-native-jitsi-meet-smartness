@@ -1,5 +1,5 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
-interface UserInfo {
+export interface UserInfo {
   email: string;
   displayName: string;
 }
@@ -24,7 +24,12 @@ export type FeatureFlags = {
   [key in FeatureFlag]: boolean;
 };
 type JitsiMeetType = {
-  call(url: string, userInfo: UserInfo, featureFlags: FeatureFlags): void;
+  join(url: string, userInfo: UserInfo): void;
+  joinWithFeatures(
+    url: string,
+    userInfo: UserInfo,
+    features: FeatureFlags
+  ): void;
 };
 
 const { JitsiMeet } = NativeModules;

@@ -2,6 +2,7 @@ package com.ko.jitsimeet
 
 import android.os.Bundle
 import android.os.Handler
+import androidx.annotation.Nullable
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
 import com.ko.jitsimeet.activities.EVENT_ON_CONFERENCE_JOINED
@@ -37,9 +38,17 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   }
 
   @ReactMethod
-  fun call(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap) {
-    UiThreadUtil.runOnUiThread {
+  fun join(url: String, userInfoParams: ReadableMap){
+    joinJitsi(url, userInfoParams, Arguments.createMap())
+  }
 
+  @ReactMethod
+  fun joinWithFeatures(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap = Arguments.createMap()){
+    joinJitsi(url, userInfoParams, featureFlagsParams)
+  }
+
+  private fun joinJitsi(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap) {
+    UiThreadUtil.runOnUiThread {
 
       this.currentActivity?.let{
         val userInfoModel = toUserInfoModel(userInfoParams)
