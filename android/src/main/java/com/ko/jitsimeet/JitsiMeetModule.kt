@@ -25,10 +25,10 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   /**
    * Sends a given event name to Javascript
    */
-  fun sendEvent(eventName: String){
+  fun sendEvent(eventName: String, params: WritableMap){
     reactApplicationContext
       .getJSModule(RCTDeviceEventEmitter::class.java)
-      .emit(eventName, null)
+      .emit(eventName, params)
   }
 
 
@@ -53,11 +53,17 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         val activityNavigator = JitsiMeetModuleNavigator(this.currentActivity!!, activityResultReceiver)
         val videoConferenceService = JitsiMeetVideoConferenceService(activityNavigator)
         val videoConferenceServiceListener = object: VideoConferenceServiceListener{
-          override fun onJoined() {
-            sendEvent(EVENT_ON_CONFERENCE_JOINED)
+          override fun onJoined(result: VideoConferenceResult) {
+            val params = Arguments.createMap()
+            params.putString("url", result.url)
+            params.putString("error", result.error)
+            sendEvent(EVENT_ON_CONFERENCE_JOINED, params)
           }
-          override fun onTerminated() {
-            sendEvent(EVENT_ON_CONFERENCE_TERMINATED)
+          override fun onTerminated(result: VideoConferenceResult) {
+            val params = Arguments.createMap()
+            params.putString("url", result.url)
+            params.putString("error", result.error)
+            sendEvent(EVENT_ON_CONFERENCE_TERMINATED, params)
           }
         }
         videoConferenceService.join(conferenceBundle, videoConferenceServiceListener)

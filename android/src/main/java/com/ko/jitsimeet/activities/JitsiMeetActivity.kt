@@ -9,6 +9,7 @@ import com.ko.jitsimeet.adapters.toJitsiMeetUserInfo
 import com.ko.jitsimeet.models.ConferenceModel
 import com.ko.jitsimeet.navigator.EXTRA_RESULT_BUNDLE_DATA
 import org.jitsi.meet.sdk.*
+import java.lang.Error
 
 
 const val EXTRA_JITSI_CONFERENCE_MODEL = "com.ko.jitsimeet.CONFERENCE_MODEL"
@@ -103,16 +104,24 @@ class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiM
     JitsiMeetActivityDelegate.onHostPause(this)
   }
 
-  override fun onConferenceTerminated(param: Map<String, Any>?) {
+  override fun onConferenceTerminated(data: Map<String, Any>?) {
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
+    val url : String = data?.get("url") as String
+    val error : String? = data["error"] as String?
+    args.putString("url", url)
+    args.putString("error", error)
     receiver.send(RESULT_CONFERENCE_TERMINATED, args)
     finish()
   }
 
-  override fun onConferenceJoined(param: Map<String, Any>?) {
+  override fun onConferenceJoined(data: Map<String, Any>?) {
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
+    val url : String = data?.get("url") as String
+    val error : String? = data["error"] as String?
+    args.putString("url", url)
+    args.putString("error", error)
     receiver.send(RESULT_CONFERENCE_JOINED, args)
   }
 

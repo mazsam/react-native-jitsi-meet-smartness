@@ -9,12 +9,18 @@ import com.ko.jitsimeet.navigator.ActivityNavigatorListener
 
 class JitsiMeetVideoConferenceService(private val activityNavigator: ActivityNavigator) : VideoConferenceService {
 
+  fun toResult(data: Bundle) : VideoConferenceResult{
+    val url = data.getString("url")!!  // url is mandatory
+    val error = data.getString("error")
+    return VideoConferenceResult(url, error)
+  }
   override fun join(conferenceBundle: Bundle, listener: VideoConferenceServiceListener) {
     activityNavigator.navigateWithListener(JitsiMeetActivity::class.java, conferenceBundle, object : ActivityNavigatorListener {
       override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
+        val result = toResult(resultData)
         when (resultCode) {
-          RESULT_CONFERENCE_JOINED -> listener.onJoined()
-          RESULT_CONFERENCE_TERMINATED -> listener.onTerminated()
+          RESULT_CONFERENCE_JOINED -> listener.onJoined(result)
+          RESULT_CONFERENCE_TERMINATED -> listener.onTerminated(result)
         }
       }
     })
