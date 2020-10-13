@@ -48,6 +48,7 @@ const initialFlags = {
   'chat.enabled': true,
   'close-captions.enabled': true,
   'controls-in-menu.enabled': false,
+  'hang-up-with-back-button.enabled': false,
   'help.enabled': true,
   'invite.enabled': true,
   'kick-out.enabled': true,
