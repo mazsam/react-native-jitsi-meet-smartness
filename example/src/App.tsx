@@ -127,11 +127,12 @@ export default function App({ flags = initialFlags }: Props) {
           );
         })}
       </View>
-
       <Button title="Join conference" color={buttonColor} onPress={call} />
-      <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}>
+      <ScrollView style={styles.terminal}>
         {events.map((event, index) => (
-          <Text key={`text-${index}`}>{event}</Text>
+          <Text style={{ color: 'white' }} key={`text-${index}`}>
+            {`jitsi> ${new Date()} ${event}`}
+          </Text>
         ))}
       </ScrollView>
     </View>
@@ -151,6 +152,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   checkboxContainer: {
-    marginVertical: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 20,
+  },
+  terminal: {
+    backgroundColor: 'black',
+    flex: 1,
+    paddingHorizontal: 4,
+    width: '100%',
   },
 });
