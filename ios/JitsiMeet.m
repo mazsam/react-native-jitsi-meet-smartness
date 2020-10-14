@@ -5,6 +5,6 @@
 @interface RCT_EXTERN_MODULE(JitsiMeet, RCTEventEmitter)
 
 
-RCT_EXTERN_METHOD(call:(NSString*)url userInfo:(NSDictionary *)userInfo)
+RCT_EXTERN_METHOD(join:(NSString*)url userInfo:(NSDictionary *)userInfo featureFlags:(NSDictionary *)featureFlags)
 
 @end
