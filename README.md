@@ -39,7 +39,7 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
         maven { // <---- Add this block
-            url "https://github.com/amallo/jitsi-maven-repository/raw/ko-master/releases"
+            url "https://github.com/SmartnessCommunity/jitsi-meet-android-sdk-releases/raw/master/releases"
         }
 
         google()

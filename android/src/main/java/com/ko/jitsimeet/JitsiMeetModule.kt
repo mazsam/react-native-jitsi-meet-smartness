@@ -38,16 +38,7 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   }
 
   @ReactMethod
-  fun join(url: String, userInfoParams: ReadableMap){
-    joinJitsi(url, userInfoParams, Arguments.createMap())
-  }
-
-  @ReactMethod
-  fun joinWithFeatures(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap = Arguments.createMap()){
-    joinJitsi(url, userInfoParams, featureFlagsParams)
-  }
-
-  private fun joinJitsi(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap) {
+  fun join(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap){
     UiThreadUtil.runOnUiThread {
 
       this.currentActivity?.let{

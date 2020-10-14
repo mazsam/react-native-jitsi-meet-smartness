@@ -11,6 +11,7 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 import {
   join,
+  Events,
   eventEmitter,
   FeatureFlag,
   FeatureFlags,
@@ -78,7 +79,7 @@ export default function App({ flags = initialFlags }: Props) {
 
   React.useEffect(() => {
     const eventListener = eventEmitter.addListener(
-      'onConferenceTerminated',
+      Events.onConferenceTerminated,
       () => {
         setEvents((e) => [
           ...e,
@@ -90,12 +91,15 @@ export default function App({ flags = initialFlags }: Props) {
   }, []);
 
   React.useEffect(() => {
-    const eventListener = eventEmitter.addListener('onConferenceJoined', () => {
-      setEvents((e) => [
-        ...e,
-        `Conference joined at ${new Date().toLocaleTimeString()}`,
-      ]);
-    });
+    const eventListener = eventEmitter.addListener(
+      Events.onConferenceJoined,
+      () => {
+        setEvents((e) => [
+          ...e,
+          `Conference joined at ${new Date().toLocaleTimeString()}`,
+        ]);
+      }
+    );
     return eventListener.remove;
   }, []);
 
@@ -143,7 +147,7 @@ export default function App({ flags = initialFlags }: Props) {
       />
       <ScrollView style={styles.terminal}>
         <Text style={styles.terminalLine}>
-          jitsi{'>'} Waiting for events....
+          jitsi{'>'} Join conference now !
         </Text>
         {events.map((event, index) => (
           <Text style={styles.terminalLine} key={`text-${index}`}>

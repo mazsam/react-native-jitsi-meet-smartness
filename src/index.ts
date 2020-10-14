@@ -20,8 +20,12 @@ export enum FeatureFlag {
   TILE_VIEW_ENABLED = 'tile-view.enabled',
   TILE_DEFAULT_VIEW_ENABLED = 'tile-default-view.enabled',
 }
+export enum Events {
+  onConferenceJoined = 'onConferenceJoined',
+  onConferenceTerminated = 'onConferenceTerminated',
+}
 export type FeatureFlags = {
-  [key in FeatureFlag]: boolean;
+  [key in string]: boolean;
 };
 
 const { JitsiMeet } = NativeModules;
