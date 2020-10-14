@@ -2,9 +2,18 @@ package com.ko.jitsimeet
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.ResultReceiver
+import androidx.annotation.Nullable
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
+import com.ko.jitsimeet.activities.EVENT_ON_CONFERENCE_JOINED
+import com.ko.jitsimeet.activities.EVENT_ON_CONFERENCE_TERMINATED
+import com.ko.jitsimeet.activities.EXTRA_JITSI_CONFERENCE_MODEL
+import com.ko.jitsimeet.adapters.toFeatureFlagsModel
+import com.ko.jitsimeet.adapters.toUserInfoModel
+import com.ko.jitsimeet.models.ConferenceModel
+import com.ko.jitsimeet.navigator.ActivityResultReceiver
+import com.ko.jitsimeet.navigator.JitsiMeetModuleNavigator
+import com.ko.jitsimeet.services.*
 
 
 const val MODULE_NAME = "JitsiMeet"
@@ -14,58 +23,13 @@ const val MODULE_NAME = "JitsiMeet"
  */
 class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-  class JitsiResultReceiver(handler: Handler?) : ResultReceiver(handler) {
-    private var listener: JitsiListener? = null
-
-    interface JitsiListener {
-      fun onTerminated()
-      fun onJoined()
-    }
-
-    fun setListener(listener: JitsiListener?) {
-      this.listener = listener
-    }
-
-    override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
-      when(resultCode){
-        RESULT_CONFERENCE_JOINED -> this.listener?.onJoined()
-        RESULT_CONFERENCE_TERMINATED ->  this.listener?.onTerminated()
-      }
-    }
-  }
-
   /**
    * Sends a given event name to Javascript
    */
-  fun sendEvent(eventName: String){
+  fun sendEvent(eventName: String, params: WritableMap){
     reactApplicationContext
       .getJSModule(RCTDeviceEventEmitter::class.java)
-      .emit(eventName, null)
-  }
-
-  // Bridge between current module and Jitsi activity.
-  // Maps result codes of Jitsi activity (eg. 1035) to Jitsi events (eg. "onJoined")
-  private  lateinit var resultReceiver : JitsiResultReceiver
-
-
-  // Forwards Jitsi events to Javascript
-  private val eventListener = object : JitsiResultReceiver.JitsiListener {
-    override fun onJoined() {
-      sendEvent(EVENT_ON_CONFERENCE_JOINED)
-    }
-
-    override fun onTerminated() {
-      sendEvent(EVENT_ON_CONFERENCE_TERMINATED)
-    }
-  }
-
-  init {
-    // JitsiResultReceiver need  a thread handler with a message queue
-    // We use the main thread to handle this
-    UiThreadUtil.runOnUiThread {
-      resultReceiver = JitsiResultReceiver(Handler())
-      resultReceiver.setListener(eventListener)
-    }
+      .emit(eventName, params)
   }
 
 
@@ -74,20 +38,37 @@ class JitsiMeetModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   }
 
   @ReactMethod
-  fun call(url: String, userInfoParams: ReadableMap) {
+  fun join(url: String, userInfoParams: ReadableMap, featureFlagsParams : ReadableMap){
     UiThreadUtil.runOnUiThread {
-      val userInfoBundle = Bundle()
 
-      userInfoParams.hasKey("displayName")?.let {
-        userInfoBundle.putString("displayName", userInfoParams.getString("displayName"))
+      this.currentActivity?.let{
+        val userInfoModel = toUserInfoModel(userInfoParams)
+        val featureFlagsModel = toFeatureFlagsModel(featureFlagsParams)
+        val conferenceModel = ConferenceModel(url, userInfoModel, featureFlagsModel)
+
+        val conferenceBundle = Bundle()
+        conferenceBundle.putSerializable(EXTRA_JITSI_CONFERENCE_MODEL, conferenceModel)
+
+        val activityResultReceiver = ActivityResultReceiver(Handler())
+        val activityNavigator = JitsiMeetModuleNavigator(this.currentActivity!!, activityResultReceiver)
+        val videoConferenceService = JitsiMeetVideoConferenceService(activityNavigator)
+        val videoConferenceServiceListener = object: VideoConferenceServiceListener{
+          override fun onJoined(result: VideoConferenceResult) {
+            val params = Arguments.createMap()
+            params.putString("url", result.url)
+            params.putString("error", result.error)
+            sendEvent(EVENT_ON_CONFERENCE_JOINED, params)
+          }
+          override fun onTerminated(result: VideoConferenceResult) {
+            val params = Arguments.createMap()
+            params.putString("url", result.url)
+            params.putString("error", result.error)
+            sendEvent(EVENT_ON_CONFERENCE_TERMINATED, params)
+          }
+        }
+        videoConferenceService.join(conferenceBundle, videoConferenceServiceListener)
       }
-      userInfoParams.hasKey("email")?.let {
-        userInfoBundle.putString("email", userInfoParams.getString("email"))
-      }
-      if (userInfoParams.hasKey("avatarURL")){
-        userInfoBundle.putString("avatarURL", userInfoParams.getString("avatarURL"))
-      }
-      this.currentActivity?.let { JitsiMeetCallingActivity.launch(it, resultReceiver,  url, userInfoBundle) }
+
     }
 
   }

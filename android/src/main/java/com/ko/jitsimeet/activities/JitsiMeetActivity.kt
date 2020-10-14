@@ -1,18 +1,19 @@
-package com.ko.jitsimeet
+package com.ko.jitsimeet.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.ResultReceiver
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.modules.core.PermissionListener
+import com.ko.jitsimeet.adapters.toJitsiMeetUserInfo
+import com.ko.jitsimeet.models.ConferenceModel
+import com.ko.jitsimeet.navigator.EXTRA_RESULT_BUNDLE_DATA
 import org.jitsi.meet.sdk.*
+import java.lang.Error
 
-const val TAG = "JitsiMeetCallingActivity"
-const val EXTRA_JITSI_URL = "com.ko.jitsimeet.URL"
-const val EXTRA_JITSI_USER_INFO = "com.ko.jitsimeet.USER_INFO"
-const val EXTRA_RESULT_RECEIVER = "receiver"
+
+const val EXTRA_JITSI_CONFERENCE_MODEL = "com.ko.jitsimeet.CONFERENCE_MODEL"
+const val EXTRA_RESULT_RECEIVER = "com.ko.jitsimeet.RECEIVER"
 
 
 const val RESULT_CONFERENCE_TERMINATED = 1002
@@ -23,23 +24,9 @@ const val EVENT_ON_CONFERENCE_TERMINATED = "onConferenceTerminated"
 const val EVENT_ON_CONFERENCE_JOINED = "onConferenceJoined"
 
 
-class JitsiMeetCallingActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
-
-  companion object {
-    fun launch(context: Activity, receiver: ResultReceiver, url: String, userInfo: Bundle) {
-      val intent = Intent(context, JitsiMeetActivity::class.java).apply {
-        putExtra(EXTRA_RESULT_RECEIVER, receiver);
-        putExtra(EXTRA_JITSI_URL, url)
-        putExtra(EXTRA_JITSI_USER_INFO, userInfo)
-      }
-      context.startActivity(intent)
-    }
-  }
+class JitsiMeetActivity : FragmentActivity(), JitsiMeetActivityInterface, JitsiMeetViewListener {
 
   private var view: JitsiMeetView? = null
-
-
-
 
   override fun onActivityResult(
     requestCode: Int,
@@ -59,17 +46,22 @@ class JitsiMeetCallingActivity : FragmentActivity(), JitsiMeetActivityInterface,
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    /** Retrieve all params from caller module **/
-    val url = intent.getStringExtra(EXTRA_JITSI_URL)
-    var userInfo = JitsiMeetUserInfo(intent.getBundleExtra(EXTRA_JITSI_USER_INFO))
+    /** Retrieve all the Jitsi params **/
+    val conferenceBundle = intent.getBundleExtra(EXTRA_RESULT_BUNDLE_DATA)
+    val conferenceModel : ConferenceModel = conferenceBundle.getSerializable(EXTRA_JITSI_CONFERENCE_MODEL) as ConferenceModel
 
     /** Build the options to feed Jitsi **/
-    val builder = JitsiMeetConferenceOptions.Builder()
-      .setRoom(url)
-    builder.setAudioMuted(false)
-    builder.setVideoMuted(true)
-    builder.setUserInfo(userInfo)
-    val options = builder.build()
+    val optionsBuilder = JitsiMeetConferenceOptions.Builder()
+      .setRoom(conferenceModel.url)
+    optionsBuilder.setAudioMuted(false)
+    optionsBuilder.setVideoMuted(true)
+    optionsBuilder.setUserInfo( toJitsiMeetUserInfo(conferenceModel.userInfo))
+    val featureIterator = conferenceModel.featureFlags.keys.iterator()
+    while (featureIterator.hasNext()) {
+      val featureFlag: String = featureIterator.next()
+      optionsBuilder.setFeatureFlag(featureFlag, conferenceModel.featureFlags.get(featureFlag)!!)
+    }
+    val options = optionsBuilder.build()
 
     /** Prepare the jitsi view with options **/
     view = JitsiMeetView(this)
@@ -112,22 +104,28 @@ class JitsiMeetCallingActivity : FragmentActivity(), JitsiMeetActivityInterface,
     JitsiMeetActivityDelegate.onHostPause(this)
   }
 
-  override fun onConferenceTerminated(param: Map<String, Any>?) {
+  override fun onConferenceTerminated(data: Map<String, Any>?) {
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
+    val url : String = data?.get("url") as String
+    val error : String? = data["error"] as String?
+    args.putString("url", url)
+    args.putString("error", error)
     receiver.send(RESULT_CONFERENCE_TERMINATED, args)
     finish()
   }
 
-  override fun onConferenceJoined(param: Map<String, Any>?) {
-    Log.d(TAG, "onConferenceJoined")
+  override fun onConferenceJoined(data: Map<String, Any>?) {
     val receiver : ResultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER);
     val args = Bundle()
+    val url : String = data?.get("url") as String
+    val error : String? = data["error"] as String?
+    args.putString("url", url)
+    args.putString("error", error)
     receiver.send(RESULT_CONFERENCE_JOINED, args)
   }
 
   override fun onConferenceWillJoin(param: Map<String, Any>?) {
-    Log.d(TAG, "onConferenceWillJoin")
   }
 
 

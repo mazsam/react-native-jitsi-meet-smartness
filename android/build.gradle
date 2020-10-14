@@ -128,7 +128,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation ('org.jitsi.react:jitsi-meet-sdk:+') {
+  implementation ('org.jitsi.react:jitsi-meet-sdk:2.10.6') {
     exclude group: 'com.facebook',module:'hermes'
     transitive = true
   }

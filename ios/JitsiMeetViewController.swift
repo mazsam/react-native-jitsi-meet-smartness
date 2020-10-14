@@ -11,7 +11,6 @@ import JitsiMeet
 struct UserInfo {
     var email: String?
     var displayName: String?
-    var avatar: String?
 }
 
 class JitsiMeetViewController: UIViewController {
@@ -37,7 +36,7 @@ class JitsiMeetViewController: UIViewController {
             - url : The url of the conference
             - userInfo: User's information
      */
-    func call(url: String, userInfo:  UserInfo){
+    func join(url: String, userInfo:  UserInfo, featureFlags:  [String: Bool]){
         // create and configure jitsimeet view
         let jitsiMeetView  =  JitsiMeetView()
         jitsiMeetView.delegate = self
@@ -49,10 +48,11 @@ class JitsiMeetViewController: UIViewController {
             let jitsiUserInfo = JitsiMeetUserInfo()
             jitsiUserInfo.displayName = userInfo.displayName
             jitsiUserInfo.email = userInfo.email
-            if userInfo.avatar != nil {
-                jitsiUserInfo.avatar = URL.init(string: userInfo.avatar!)
-            }
             builder.userInfo = jitsiUserInfo
+            featureFlags.keys.forEach { key in
+                builder.setFeatureFlag(key, withBoolean: featureFlags[key]!)
+            }
+           
             
         }
         jitsiMeetView.delegate = self

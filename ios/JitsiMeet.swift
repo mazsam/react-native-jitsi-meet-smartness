@@ -7,8 +7,8 @@ import Foundation
 @objc(JitsiMeet)
 class JitsiMeet: RCTEventEmitter {
     
-    @objc(call:userInfo:)
-    func call(url: String, userInfoParams: [String: Any]) -> Void {
+    @objc(join:userInfo:featureFlags:)
+    func join(url: String, userInfoParams: [String: Any], featureFlags: [String: Bool] = [:]) -> Void {
         
         DispatchQueue.main.async {
             let jitsiMeetViewController = JitsiMeetViewController()
@@ -18,11 +18,9 @@ class JitsiMeet: RCTEventEmitter {
             var userInfo = UserInfo()
             userInfo.displayName = userInfoParams["displayName"] as? String
             userInfo.email = userInfoParams["email"] as? String
-            userInfo.avatar = userInfoParams["avatar"] as? String
             
-            jitsiMeetViewController.call(url: url, userInfo: userInfo)
+            jitsiMeetViewController.join(url: url, userInfo: userInfo, featureFlags : featureFlags)
         }
-        
     }
     
     override func supportedEvents() -> [String]! {

@@ -1,6 +1,6 @@
 # ko-react-native-jitsi-meet
 
-Jitsi wrapper for ReactNative. WIP - NOT PRODUCTION READY !!!!
+Jitsi wrapper for Ko Project, inspired by [https://github.com/skrafft/react-native-jitsi-meet](https://github.com/skrafft/react-native-jitsi-meet)
 
 ## Installation
 
@@ -10,7 +10,7 @@ npm install ko-react-native-jitsi-meet
 
 ## Android Configuration
 
-Add the `com.ko.jitsimeet.JitsiMeetActivity` in `android/app/src/main/AndroidManifest.xml` with `singleTask` launch mode.
+Add the `com.ko.jitsimeet.activities.JitsiMeetActivity` in `android/app/src/main/AndroidManifest.xml` with `singleTask` launch mode.
 
 ```xml
 <application
@@ -18,24 +18,50 @@ Add the `com.ko.jitsimeet.JitsiMeetActivity` in `android/app/src/main/AndroidMan
 >
 <activity
         android:launchMode="singleTask"
-        android:name="com.ko.jitsimeet.JitsiMeetActivity"
+        android:name="com.ko.jitsimeet.activities.JitsiMeetActivity"
 />
 </application>
 
 ```
 
-## Usage
+Add the maven repository url `https://github.com/amallo/jitsi-maven-repository/raw/ko-master/releases` in `android/build.gradle`
+
+```gradle
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        maven { // <---- Add this block
+            url "https://github.com/SmartnessCommunity/jitsi-meet-android-sdk-releases/raw/master/releases"
+        }
+
+        google()
+        jcenter()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+```
+
+## Basic Usage
 
 ```js
 
 import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
-import JitsiMeet from 'ko-react-native-jitsi-meet';
+import JitsiMeet, {UserInfo} from 'ko-react-native-jitsi-meet';
 
 export default function App() {
   const [url, setUrl] = React.useState('https://meet.jit.si/exemple')
   const call = React.useCallback(() => {
-    JitsiMeet.call(url)
+    const userInfo : UserInfo = { email: 'john@ko.com', displayName: 'John Doe' }
+    JitsiMeet.join(url, userInfo)
   }, [])
   return (
     <View style={styles.container}>
@@ -56,22 +82,19 @@ const styles = StyleSheet.create({
 });
 
 ```
-Jitsi can be embedded in your applications in two ways:
-- By calling Jitsi API methods 
-- By using the `<RNJitsiMeetView>` view 
 
-## Using Jitsi API
+## Jitsi API Usage
 
-The start of a Jitsi call is done using the `call()` method. This method takes as first parameter the information of the calling user.
+The start of a Jitsi call is done using the `joinWithFeatures()` method. This method takes as first parameter the information of the calling user and as second (optional) parameter the list of enabled features. 
 
 ```ts
-import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
+import JitsiMeet, { eventEmitter, UserInfo, FeatureFlag, FeatureFlags } from 'ko-react-native-jitsi-meet';
 
-interface UserInfo {
-  email: string;
-  displayName: string;
+const userInfo: UserInfo = { email: 'john@ko.com', displayName: 'John Doe' }
+const features : FeatureFlags = {
+  [FeatureFlag.CHAT_ENABLED] : true
 }
-JitsiMeet.call('https://meet.jit.si/exemple', { email : 'john@ko.com', displayName: 'John Doe' })
+JitsiMeet.joinWithFeatures('https://meet.jit.si/exemple', userInfo, features)
 ```
 
 It is possible to listen to the events of the Jitsi call (`onConferenceJoined`, `onConferenceTerminated`) by subscribing to the corresponding events.
@@ -80,7 +103,7 @@ It is possible to listen to the events of the Jitsi call (`onConferenceJoined`, 
 import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
 
 React.useEffect(() => {
-    const eventListener = eventEmitter.addListener('onConferenceTerminated', () => {
+    const eventListener = eventEmitter.addListener('onConferenceTerminated', (url: string, error?: string) => {
       console.log('Conference is over, see you soon !')
     })
     return () => eventListener.remove();
