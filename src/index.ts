@@ -24,12 +24,7 @@ export type FeatureFlags = {
   [key in FeatureFlag]: boolean;
 };
 type JitsiMeetType = {
-  join(url: string, userInfo: UserInfo): void;
-  joinWithFeatures(
-    url: string,
-    userInfo: UserInfo,
-    features: FeatureFlags
-  ): void;
+  join(url: string, userInfo: UserInfo, features: FeatureFlags): void;
 };
 
 const { JitsiMeet } = NativeModules;

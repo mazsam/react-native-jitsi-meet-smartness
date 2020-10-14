@@ -71,7 +71,7 @@ export default function App({ flags = initialFlags }: Props) {
   const [featureFlags, setFeatureFlags] = React.useState<FeatureFlags>(flags);
 
   const call = React.useCallback(() => {
-    JitsiMeet.joinWithFeatures(url, { email, displayName }, featureFlags);
+    JitsiMeet.join(url, { email, displayName }, featureFlags);
   }, [url, email, displayName, featureFlags]);
 
   React.useEffect(() => {
