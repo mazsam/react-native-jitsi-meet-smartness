@@ -23,12 +23,15 @@ export enum FeatureFlag {
 export type FeatureFlags = {
   [key in FeatureFlag]: boolean;
 };
-type JitsiMeetType = {
-  join(url: string, userInfo: UserInfo, features: FeatureFlags): void;
-};
 
 const { JitsiMeet } = NativeModules;
 
 export const eventEmitter = new NativeEventEmitter(JitsiMeet);
 
-export default JitsiMeet as JitsiMeetType;
+export const join = (
+  url: string,
+  userInfo: UserInfo,
+  features: FeatureFlags | never[] = []
+) => {
+  JitsiMeet.join(url, userInfo, features);
+};

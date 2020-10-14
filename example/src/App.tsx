@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  SafeAreaView,
   StyleSheet,
   View,
   Text,
@@ -8,7 +9,8 @@ import {
   ScrollView,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import JitsiMeet, {
+import {
+  join,
   eventEmitter,
   FeatureFlag,
   FeatureFlags,
@@ -31,13 +33,13 @@ const FeatureTagCheckBox = ({
   text,
 }: FeatureTagCheckBoxProps) => {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', margin: 4 }}>
       <CheckBox
         disabled={disabled}
         value={value}
         onValueChange={onValueChange}
       />
-      <Text style={{ color: 'ghostwhite' }}>{text}</Text>
+      <Text style={{ color: 'ghostwhite', marginLeft: 4 }}>{text}</Text>
     </View>
   );
 };
@@ -70,15 +72,18 @@ export default function App({ flags = initialFlags }: Props) {
   // Features values
   const [featureFlags, setFeatureFlags] = React.useState<FeatureFlags>(flags);
 
-  const call = React.useCallback(() => {
-    JitsiMeet.join(url, { email, displayName }, featureFlags);
+  const joinConference = React.useCallback(() => {
+    join(url, { email, displayName }, featureFlags);
   }, [url, email, displayName, featureFlags]);
 
   React.useEffect(() => {
     const eventListener = eventEmitter.addListener(
       'onConferenceTerminated',
       () => {
-        setEvents((e) => [...e, 'onConferenceTerminated']);
+        setEvents((e) => [
+          ...e,
+          `Conference terminated at ${new Date().toLocaleTimeString()}`,
+        ]);
       }
     );
     return eventListener.remove;
@@ -86,13 +91,16 @@ export default function App({ flags = initialFlags }: Props) {
 
   React.useEffect(() => {
     const eventListener = eventEmitter.addListener('onConferenceJoined', () => {
-      setEvents((e) => [...e, 'onConferenceJoined']);
+      setEvents((e) => [
+        ...e,
+        `Conference joined at ${new Date().toLocaleTimeString()}`,
+      ]);
     });
     return eventListener.remove;
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder={'Url'}
@@ -128,15 +136,22 @@ export default function App({ flags = initialFlags }: Props) {
           );
         })}
       </View>
-      <Button title="Join conference" color={buttonColor} onPress={call} />
+      <Button
+        title="Join conference"
+        color={buttonColor}
+        onPress={joinConference}
+      />
       <ScrollView style={styles.terminal}>
+        <Text style={styles.terminalLine}>
+          jitsi{'>'} Waiting for events....
+        </Text>
         {events.map((event, index) => (
-          <Text style={{ color: 'white' }} key={`text-${index}`}>
-            {`jitsi> ${new Date()} ${event}`}
+          <Text style={styles.terminalLine} key={`text-${index}`}>
+            {`jitsi> ${event}`}
           </Text>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -156,11 +171,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 20,
+    paddingTop: 20,
   },
   terminal: {
     backgroundColor: 'black',
     flex: 1,
     paddingHorizontal: 4,
     width: '100%',
+  },
+  terminalLine: {
+    color: 'white',
+    marginVertical: 5,
   },
 });
