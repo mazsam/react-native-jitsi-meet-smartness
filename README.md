@@ -1,4 +1,4 @@
-# smartness-community/react-native-jitsi-meet
+# @smartness-community/react-native-jitsi-meet
 
 Jitsi wrapper for Ko Project, inspired by [https://github.com/skrafft/react-native-jitsi-meet](https://github.com/skrafft/react-native-jitsi-meet)
 
