@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "ko-react-native-jitsi-meet": [
+      "react-native-jitsi-meet": [
         "./src/index.ts"
       ]
     },

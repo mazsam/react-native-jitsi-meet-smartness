@@ -95,7 +95,7 @@ import androidx.annotation.Nullable;
 
 import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
-import JitsiMeet, {UserInfo} from 'ko-react-native-jitsi-meet';
+import JitsiMeet, {UserInfo} from '@smartness-community/react-native-jitsi-meet';
 
 export default function App() {
   const [url, setUrl] = React.useState('https://meet.jit.si/exemple')
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 The start of a Jitsi call is done using the `joinWithFeatures()` method. This method takes as first parameter the information of the calling user and as second (optional) parameter the list of enabled features. 
 
 ```ts
-import JitsiMeet, { eventEmitter, UserInfo, FeatureFlag, FeatureFlags } from 'ko-react-native-jitsi-meet';
+import JitsiMeet, { eventEmitter, UserInfo, FeatureFlag, FeatureFlags } from '@smartness-community/react-native-jitsi-meet';
 
 const userInfo: UserInfo = { email: 'john@ko.com', displayName: 'John Doe' }
 const features : FeatureFlags = {
@@ -140,7 +140,7 @@ JitsiMeet.join('https://meet.jit.si/exemple', userInfo, features)
 It is possible to listen to the events of the Jitsi call (`onConferenceJoined`, `onConferenceTerminated`) by subscribing to the corresponding events.
 
 ```js
-import JitsiMeet, { eventEmitter } from 'ko-react-native-jitsi-meet';
+import JitsiMeet, { eventEmitter } from '@smartness-community/react-native-jitsi-meet';
 
 React.useEffect(() => {
     const eventListener = eventEmitter.addListener('onConferenceTerminated', (url: string, error?: string) => {

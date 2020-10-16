@@ -15,7 +15,7 @@ import {
   eventEmitter,
   FeatureFlag,
   FeatureFlags,
-} from '@amallo/ko-react-native-jitsi-meet';
+} from '@smartness-community/react-native-jitsi-meet';
 
 const backgroundColor = 'cadetblue';
 const buttonColor = '#f194ff';
