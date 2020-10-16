@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "ko-react-native-jitsi-meet.podspec",
+    "react-native-jitsi-meet.podspec",
     "!lib/typescript/example",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -34,13 +34,13 @@
     "ios",
     "android"
   ],
-  "repository": "git://github.com/amallo/ko-react-native-jitsi-meet.git",
+  "repository": "git://github.com/smartness-community/react-native-jitsi-meet.git",
   "author": "Audie MALLOGGIA [APP2B] <audie@app2b.io> (https://github.com/amallo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amallo/ko-react-native-jitsi-meet/issues"
+    "url": "https://github.com/smartness-community/react-native-jitsi-meet/issues"
   },
-  "homepage": "https://github.com/amallo/ko-react-native-jitsi-meet#readme",
+  "homepage": "https://github.com/smartness-community/react-native-jitsi-meet#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",
