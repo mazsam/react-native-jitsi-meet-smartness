@@ -5,7 +5,7 @@ Jitsi wrapper for Ko Project, inspired by [https://github.com/skrafft/react-nati
 ## Installation
 
 ```sh
-npm install ko-react-native-jitsi-meet
+npm install smartness-community/react-native-jitsi-meet
 ```
 
 ## Android Configuration
