@@ -134,7 +134,7 @@ const userInfo: UserInfo = { email: 'john@ko.com', displayName: 'John Doe' }
 const features : FeatureFlags = {
   [FeatureFlag.CHAT_ENABLED] : true
 }
-JitsiMeet.joinWithFeatures('https://meet.jit.si/exemple', userInfo, features)
+JitsiMeet.join('https://meet.jit.si/exemple', userInfo, features)
 ```
 
 It is possible to listen to the events of the Jitsi call (`onConferenceJoined`, `onConferenceTerminated`) by subscribing to the corresponding events.
