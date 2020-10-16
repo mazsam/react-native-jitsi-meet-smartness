@@ -1,5 +1,5 @@
 {
-  "name": "ko-react-native-jitsi-meet",
+  "name": "@amallo/ko-react-native-jitsi-meet",
   "version": "0.1.1",
   "description": "Jitsi for KO",
   "main": "lib/commonjs/index",
@@ -34,7 +34,7 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/amallo/ko-react-native-jitsi-meet",
+  "repository": "git://github.com/amallo/ko-react-native-jitsi-meet.git",
   "author": "Audie MALLOGGIA [APP2B] <audie@app2b.io> (https://github.com/amallo)",
   "license": "MIT",
   "bugs": {
@@ -138,6 +138,9 @@
       "module",
       "typescript"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {}
 }

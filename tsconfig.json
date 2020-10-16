@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "ko-react-native-jitsi-meet": ["./src/index"]
+      "ko-react-native-jitsi-meet": [
+        "./src/index.ts"
+      ]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -10,7 +12,9 @@
     "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
