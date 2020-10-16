@@ -49,6 +49,25 @@ allprojects {
 }
 ```
 
+Update the `xmlns:tools="http://schemas.android.com/tools"` directive into the `AndroidManifest.xml` file 
+
+```js
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.your.package">
+.....
+</manifest>
+```
+
+Add the `tools:replace="android:allowBackup"` into the `<application></application>`
+
+```js
+<application
+    tools:replace="android:allowBackup"
+</application>
+```
+
+
 ## Basic Usage
 
 ```js
