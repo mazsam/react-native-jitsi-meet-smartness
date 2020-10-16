@@ -66,7 +66,28 @@ Add the `tools:replace="android:allowBackup"` into the `<application></applicati
     tools:replace="android:allowBackup"
 </application>
 ```
+Enable Hermès into `android/app/build.gradle`
 
+```
+project.ext.react = [
+    enableHermes: true,  // clean and rebuild if changing
+]
+```
+
+Update the MainApplication class 
+```
+import androidx.annotation.Nullable;
+  ...
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
+
+    @Override
+    protected @Nullable String getBundleAssetName() {
+      return "app.bundle";
+    }
+```
 
 ## Basic Usage
 
