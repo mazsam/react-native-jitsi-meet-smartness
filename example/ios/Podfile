@@ -58,7 +58,7 @@ target 'KoReactNativeJitsiMeetExample' do
 
   pod 'JitsiMeetSDK', :git => 'https://github.com/SmartnessCommunity/jitsi-meet-ios-sdk-releases.git'
   #pod 'JitsiMeetSDK', '~> 2.8.1'
-  pod 'ko-react-native-jitsi-meet', :path => '../..'
+  pod 'react-native-jitsi-meet', :path => '../..'
 
   use_native_modules!
 

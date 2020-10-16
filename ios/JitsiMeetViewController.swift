@@ -1,6 +1,6 @@
 //
 //  JitsiMeetViewController.swift
-//  ko-react-native-jitsi-meet
+//  react-native-jitsi-meet
 //
 //  Created by Audie on 17/08/2020.
 //
