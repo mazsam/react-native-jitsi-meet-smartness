@@ -24,7 +24,7 @@ Add the `com.ko.jitsimeet.activities.JitsiMeetActivity` in `android/app/src/main
 
 ```
 
-Add the maven repository url `https://github.com/amallo/jitsi-maven-repository/raw/ko-master/releases` in `android/build.gradle`
+Add the maven repository url `https://github.com/@smartness-community/jitsi-maven-repository/raw/ko-master/releases` in `android/build.gradle`
 
 ```gradle
 allprojects {
