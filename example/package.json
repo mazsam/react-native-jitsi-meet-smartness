@@ -1,6 +1,6 @@
 {
   "name": "ko-react-native-jitsi-meet-example",
-  "description": "Example app for ko-react-native-jitsi-meet",
+  "description": "Example app for react-native-jitsi-meet",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@smartness-community/react-native-jitsi-meet": "../src",
     "@react-native-community/checkbox": "^0.5.5",
     "react": "16.11.0",
     "react-native": "0.62.2"

@@ -56,9 +56,9 @@ target 'KoReactNativeJitsiMeetExample' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'JitsiMeetSDK', :git => 'https://github.com/SmartnessCommunity/jitsi-meet-ios-sdk-releases.git'
+  pod 'JitsiMeetSDK', :git => 'https://github.com/smartness-community/jitsi-meet-ios-sdk-releases.git'
   #pod 'JitsiMeetSDK', '~> 2.8.1'
-  pod 'ko-react-native-jitsi-meet', :path => '../..'
+  pod 'react-native-jitsi-meet', :path => '../..'
 
   use_native_modules!
 
