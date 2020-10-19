@@ -2,22 +2,22 @@
   "name": "@smartness-community/react-native-jitsi-meet",
   "version": "0.1.1",
   "description": "Jitsi for KO",
-  "main": "lib/commonjs/index",
+  "main": "src/index.ts",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
-  "react-native": "src/index",
+  "react-native": "src/index.ts",
   "source": "src/index",
   "files": [
     "src",
     "lib",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
     "android",
     "ios",
     "cpp",
     "react-native-jitsi-meet.podspec",
-    "!lib/typescript/example",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__"
+    "!lib/typescript/example"
   ],
   "scripts": {
     "test": "jest",
@@ -34,7 +34,7 @@
     "ios",
     "android"
   ],
-  "repository": "git://github.com/smartness-community/react-native-jitsi-meet.git",
+  "repository": "https://github.com/smartness-community/react-native-jitsi-meet.git",
   "author": "Audie MALLOGGIA [APP2B] <audie@app2b.io> (https://github.com/amallo)",
   "license": "MIT",
   "bugs": {
@@ -134,8 +134,6 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "commonjs",
-      "module",
       "typescript"
     ]
   },
